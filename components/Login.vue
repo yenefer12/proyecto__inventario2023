@@ -3,21 +3,44 @@
   const password = ref("")
   const flag = ref(false)
 
-  
   const login = async () => {
-    try {
-      const data = await useFetch(
-        () => `https://inventario-3hbd.onrender.com/api/users/login/username/${username.value}/password/${password.value}`
-      );
+  try {
+    const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const apiUrl = `https://inventario-3hbd.onrender.com/api/users/login/username/${username.value}/password/${password.value}`;
+    
+    // Set up the headers to include any necessary information (e.g., authentication tokens, content-type)
+    const headers = {
+      accept: 'application/json',
+      'Content-Type': 'application/json', // Assuming the API accepts JSON data
+      // Add any other headers as needed for your API
+    };
 
-      navigateTo(`/home`);
-      
-      console.log(data);
+    // Perform the fetch request with the specified URL, headers, and method (POST in this case)
+    const response = await fetch(apiUrl, {
+      method: 'GET', // Adjust the method if required (e.g., GET, POST, PUT, DELETE)
+      headers: headers,
+      mode:'no-cors'
+    });
 
-    } catch (error) {
-      console.error(error);
+    // Wait for the server response
+    const data = await response.json();
+
+    // Handle the response data as needed, e.g., check for errors, update state, etc.
+    console.log(data);
+
+    // Check the response status to decide if the login was successful
+    if (response.ok) {
+      // If login was successful, navigate to the /home page
+      navigateTo('/home');
+    } else {
+      // If login failed, display an error message or handle it accordingly
+      console.error('Login failed:', data);
     }
-  };
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error('Error fetching data:', error);
+  }
+};
 
 </script>
 <template>
