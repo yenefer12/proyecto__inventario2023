@@ -1,5 +1,6 @@
 <template>
-<h1>gestion</h1>
+<Search/>
+<TableGestion/>
 </template>
 <style lang="scss" scoped>
 </style>

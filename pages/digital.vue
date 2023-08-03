@@ -1,5 +1,6 @@
 <template>
-    <h1>digital</h1>
+    <Search/>
+    <TableDigital/>
 </template>
 <style lang="scss" scoped>
 </style>

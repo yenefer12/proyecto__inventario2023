@@ -1,8 +1,6 @@
 <template>
   <v-card >
     <v-layout>
-      <!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
-
       <v-app-bar
         color="#0A082D"
         prominent
@@ -13,17 +11,17 @@
 
         <v-spacer></v-spacer>
 
-        <v-toolbar-title class="title subtitle"><nuxt-link to="gestion">Gestión</nuxt-link></v-toolbar-title>
+        <v-toolbar-title class="title subtitle"><nuxt-link to="/gestion">Gestión</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle">Archivo digital</v-toolbar-title>
+        <v-toolbar-title class="title subtitle"><nuxt-link to="/digital">Archivo digital</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle">Archivo físico</v-toolbar-title>
+        <v-toolbar-title class="title subtitle"><nuxt-link to="/fisico">Archivo físico</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle">Mi estatus</v-toolbar-title>
+        <v-toolbar-title class="title subtitle"><nuxt-link to="/estatus">Mi estatus</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle">Estadísticas</v-toolbar-title>
+        <v-toolbar-title class="title subtitle"><nuxt-link to="/estadisticas">Estadísticas</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle">Requerimientos especiales</v-toolbar-title>
+        <v-toolbar-title class="title subtitle"><nuxt-link to="/requerimientos">Requerimientos especiales</nuxt-link></v-toolbar-title>
 
         <v-btn><i class="fa-solid fa-user icon-user"></i>
           <v-tooltip
@@ -106,5 +104,8 @@
       font-size: 5rem;
     }
 
+  }
+  .v-card{
+    margin-bottom: 70px;
   }
 </style>
