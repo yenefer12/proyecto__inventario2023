@@ -1,5 +1,5 @@
 <template>
-<h1>requerimeintos</h1>
+<FormRequerimientos/>
 </template>
 <style lang="scss" scoped>
 </style>

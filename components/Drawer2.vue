@@ -6,22 +6,21 @@
         prominent
       >
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"><i class="fa-solid fa-bars icon-drawer"></i></v-app-bar-nav-icon>
-
-        <v-toolbar-title class="title">Inventario</v-toolbar-title>
+        <v-app-bar-nav-icon  class="logo" ><nuxt-link  to="/home"><img src="https://i.ibb.co/kJkxjTJ/image-20230802-211448.png" alt=""></nuxt-link></v-app-bar-nav-icon>
 
         <v-spacer></v-spacer>
 
-        <v-toolbar-title class="title subtitle"><nuxt-link to="/gestion">Gestión</nuxt-link></v-toolbar-title>
+        <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/gestion">Gestión</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle"><nuxt-link to="/digital">Archivo digital</nuxt-link></v-toolbar-title>
+        <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/digital">Digital</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle"><nuxt-link to="/fisico">Archivo físico</nuxt-link></v-toolbar-title>
+        <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/fisico">Físico</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle"><nuxt-link to="/estatus">Mi estatus</nuxt-link></v-toolbar-title>
+        <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/estatus">Mi estatus</nuxt-link></v-toolbar-title>
 
-        <v-toolbar-title class="title subtitle"><nuxt-link to="/estadisticas">Estadísticas</nuxt-link></v-toolbar-title>
+        <!-- <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/estadisticas">Estadísticas</nuxt-link></v-toolbar-title> -->
 
-        <v-toolbar-title class="title subtitle"><nuxt-link to="/requerimientos">Requerimientos especiales</nuxt-link></v-toolbar-title>
+        <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/requerimientos">Requerimientos</nuxt-link></v-toolbar-title>
 
         <v-btn><i class="fa-solid fa-user icon-user"></i>
           <v-tooltip
@@ -57,6 +56,32 @@
             Area de talento humano
           </v-list-item>
         </v-list>
+
+        <div class="hiden-text">
+          <div class="line"></div>
+          <p class="text-center mt-4">Modulos</p>
+        </div>
+
+        <v-list >
+          <v-list-item class="title subtitle color-text">
+            <nuxt-link class="color-text" to="/gestion">Gestión</nuxt-link>
+          </v-list-item>
+          <v-list-item class="title subtitle ">
+            <nuxt-link class="color-text" to="/digital">Archivo digital</nuxt-link>
+          </v-list-item>
+          <v-list-item class="title subtitle ">
+            <nuxt-link class="color-text" to="/fisico">Archivo físico</nuxt-link>
+          </v-list-item>
+          <v-list-item class="title subtitle ">
+            <nuxt-link class="color-text" to="/estatus">Mi estatus</nuxt-link>
+          </v-list-item>
+          <!-- <v-list-item class="title subtitle ">
+            <nuxt-link class="color-text" to="/estadisticas">Estadísticas</nuxt-link>
+          </v-list-item> -->
+          <v-list-item class="title subtitle ">
+            <nuxt-link class="color-text" to="/requerimientos">Requerimientos</nuxt-link>
+          </v-list-item>
+        </v-list>
       </v-navigation-drawer>
     </v-layout>
   </v-card>
@@ -66,7 +91,7 @@
   const drawer = ref(false)
 
   const exit = () =>{
-    navigateTo( `/` )
+    navigateTo( `/home` )
   }
 </script>
 <style lang="scss" scoped>
@@ -93,6 +118,9 @@
       color: $blanco;
       font-size: 2rem;
     }
+    .text-color-drawer{
+      color: $blanco ;
+    }
   }
   .list-drawer{
     justify-content: center !important;
@@ -107,5 +135,35 @@
   }
   .v-card{
     margin-bottom: 70px;
+    z-index: 10;
   }
+  .router-link-exact-active{
+    color: $azul-claro !important;
+  }
+  .line{
+    border-bottom: 1px solid $negro;
+  }
+  @media screen and (max-width: 1000px) {
+    .hiden{
+      display: none;
+    }
+    
+  }
+  @media screen and (min-width: 1000px) {
+    .title.subtitle:not(.hiden){
+      display: none;
+    }
+    .hiden-text{
+      display: none;
+    }
+    
+  }
+.logo img {
+  width: 180%;
+  height: auto;
+}
+.color-text{
+  color: $azul-Marino;
+}
+
 </style>

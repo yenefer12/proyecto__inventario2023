@@ -1,6 +1,6 @@
 <template>
-   <v-icon icon="mdi-home" />
-   <h1>goll</h1>
+  <search/>
+  <Table-Fisico/>
  </template>
 <style lang="scss" scoped>
 </style>

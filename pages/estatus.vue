@@ -1,5 +1,5 @@
 <template>
-    <h1>estatus</h1>
+    <CardEstatus/>
 </template>
 <style lang="scss" scoped>
 </style>
