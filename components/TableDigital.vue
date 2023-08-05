@@ -20,7 +20,7 @@ const filteredData = computed(() => {
   const searchTerm = props.searchTerm || '';
   const searchTermLowerCase = searchTerm.toLowerCase();
   return data.value.filter(item => {
-    const fullName = (item.firstName + ' ' + item.lastName).toLowerCase();
+    const fullName = (item.name).toLowerCase();
     return fullName.includes(searchTermLowerCase);
   });
 });
@@ -30,13 +30,15 @@ const deletingItemId = ref(null); // Estado para guardar el ID del artículo que
 const openDeleteDialog = (id) => {
   deletingItemId.value = id; // Guardar el ID del artículo que se va a eliminar
   dialog.value = true; // Abrir el diálogo
+  console.log(deletingItemId.value);
 };
 const deleteItem = () => {
   // Utiliza el ID del artículo guardado en deletingItemId.value para eliminarlo
-  fetch(`https://inventario-3hbd.onrender.com/api/users/${deletingItemId.value}`, {
+  fetch(`https://inventario-3hbd.onrender.com/api/digital-documents/${deletingItemId.value}`, {
     method: 'DELETE',
   })
     .then(response => {
+      
       if (response.ok) {
         // Encuentra el índice del artículo y elimínalo de la matriz de datos
         const index = data.value.findIndex(item => item.id === deletingItemId.value);

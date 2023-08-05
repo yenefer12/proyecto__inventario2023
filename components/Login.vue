@@ -6,6 +6,7 @@ const username = ref("");
 const password = ref("");
 const flag = ref(false);
 const registerDialog = ref(false);
+const data1 = ref([]);
 
 const registerUserComponent = ref(null);
 
@@ -29,6 +30,16 @@ const login = async () => {
       () => `https://inventario-3hbd.onrender.com/api/users/login/username/${username.value}/password/${password.value}`
     );
     if (data.data._rawValue) {
+      fetch('https://inventario-3hbd.onrender.com/api/users')
+        .then(response => response.json())
+        .then(json => {
+          data1.value = json.data1; // Ahora accedemos directamente a la propiedad 'data' del objeto JSON
+          console.log(data1.value,"yenifer");
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+
       navigateTo(`/home`);
     }
     console.log(data);
@@ -36,6 +47,13 @@ const login = async () => {
     console.error(error);
   }
 };
+
+
+
+// const getUserInfo =  () => {
+  
+// };
+
 
 const openRegisterModal = () => {
   registerDialog.value = true;
