@@ -1,12 +1,18 @@
 <script setup>
-import { ref } from 'vue';
 import RegisterUser from '@/components/RegisterUser.vue';
+import { useApiStore } from '@/stores/apifetch'
 
-const username = ref("");
-const password = ref("");
+
+const store = useApiStore();
+
+
+const user = ref({
+  username: '',
+  password: '',
+});
+
 const flag = ref(false);
 const registerDialog = ref(false);
-const data1 = ref([]);
 
 const registerUserComponent = ref(null);
 
@@ -24,36 +30,25 @@ const registerUser = () => {
   registerUserComponent.value.handleSubmit();
 };
 
-const login = async () => {
-  try {
-    const data = await useFetch(
-      () => `https://inventario-3hbd.onrender.com/api/users/login/username/${username.value}/password/${password.value}`
-    );
-    if (data.data._rawValue) {
-      fetch('https://inventario-3hbd.onrender.com/api/users')
-        .then(response => response.json())
-        .then(json => {
-          data1.value = json.data1; // Ahora accedemos directamente a la propiedad 'data' del objeto JSON
-          console.log(data1.value,"yenifer");
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
+const handleSubmit = async () => {
 
-      navigateTo(`/home`);
-    }
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
+  const {data:responseData} = await useFetch('https://docymento.onrender.com/login/', {
+      method: 'post',
+      body: {
+        email: user.value.username,
+        password: user.value.password,
+      }
+  });
+  console.log(responseData.value);
+  store.userData.firstName = responseData.value.user.firstName
+  store.userData.lastName = responseData.value.user.lastName
+  store.userData.department = responseData.value.user.department
+  store.userData.userType = responseData.value.user.userType
+
+  console.log(store.userData.firstName,"yenifer");
+  navigateTo(`/home`)
+
 };
-
-
-
-// const getUserInfo =  () => {
-  
-// };
-
 
 const openRegisterModal = () => {
   registerDialog.value = true;
@@ -77,9 +72,9 @@ const onUserRegistered = () => {
       ></v-img>
       <v-card-title align-center>Iniciar sesión</v-card-title>
       <v-card-text>
-        <v-form ref="form">
+        <v-form @submit.prevent="handleSubmit">
           <v-text-field
-            v-model="username"
+            v-model="user.username"
             label="Usuario"
             dense
             outlined
@@ -87,7 +82,7 @@ const onUserRegistered = () => {
             :rules="usernameRules"
           ></v-text-field>
           <v-text-field
-            v-model="password"
+            v-model="user.password"
             label="Contraseña"
             dense
             outlined
@@ -97,11 +92,11 @@ const onUserRegistered = () => {
             @click:append-inner="flag = !flag"
             :type="flag ? 'text' : 'password'"
           ></v-text-field>
+          <v-card-actions>
+            <v-btn block dark type="submit">Ingresar</v-btn>
+          </v-card-actions>
         </v-form>
       </v-card-text>
-      <v-card-actions>
-        <v-btn block dark @click="login">Ingresar</v-btn>
-      </v-card-actions>
       <v-card-text>
         <v-row class="bootom-options" no-gutters align="center" justify="center">
           <v-col class="registre" align="center">

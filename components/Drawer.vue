@@ -1,3 +1,23 @@
+<script setup>
+  import { useApiStore } from '@/stores/apifetch'
+  import { storeToRefs } from 'pinia'
+
+
+  const store = useApiStore();
+  let userData = storeToRefs(store);
+
+  // store.userData.firstName = responseData.value.user.firstName
+  // store.userData.lastName = responseData.value.user.lastName
+  // store.userData.department = responseData.value.user.department
+  // store.userData.userType = responseData.value.user.userType
+
+  const drawer = ref(false)
+
+  const exit = () =>{
+    console.log(store.userData.firstName,"drawer");
+    // navigateTo( `/` )
+  }
+</script>
 <template>
   <v-card >
     <v-layout>
@@ -19,7 +39,7 @@
             location="bottom"
             class="text-center"
             >
-            <a>Yenifer Ortiz Herrera</a>
+            <a>{{ userData}}</a>
           </v-tooltip>
         </v-btn>
         <v-btn
@@ -41,7 +61,7 @@
           >
           </v-list-item>
           <v-list-item>
-            Yenifer Ortiz Herrera
+          {{userData}}
           </v-list-item>
           <v-list-item>
             Area de talento humano
@@ -51,14 +71,6 @@
     </v-layout>
   </v-card>
 </template>
-<script setup>
-
-  const drawer = ref(false)
-
-  const exit = () =>{
-    navigateTo( `/` )
-  }
-</script>
 <style lang="scss" scoped>
   .icon-drawer{
     color: $blanco;
@@ -88,5 +100,8 @@
       font-size: 5rem;
     }
 
+  }
+  .v-card{
+    z-index: 10;
   }
 </style>

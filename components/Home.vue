@@ -1,3 +1,6 @@
+<script setup>
+
+</script>
 <template>
   <v-container>
     <v-row class="row-card">
@@ -74,7 +77,7 @@
       </v-col>
     </v-row>
   </v-container>
-<Drawer/>
+<!-- <Drawer/> -->
 </template>
 
 <style lang="scss" scoped>

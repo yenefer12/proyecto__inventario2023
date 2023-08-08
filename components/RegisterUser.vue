@@ -1,15 +1,15 @@
 <template>
   <v-form @submit.prevent="handleSubmit">
-      <v-text-field label="First Name" v-model="user.firstName" />
-      <v-text-field label="Last Name" v-model="user.lastName" />
+      <v-text-field label="Nombre" v-model="user.firstName" />
+      <v-text-field label="Apellido" v-model="user.lastName" />
       <v-text-field label="Email" type="email" v-model="user.email" />
-      <v-text-field label="Cellphone" v-model="user.cellphone" />
-      <v-text-field label="Date of Birth" type="date" v-model="user.dateOfBirth" />
-      <v-text-field label="Document Number" v-model="user.documentNumber" />
-      <v-text-field label="Username" v-model="user.userName" />
-      <v-text-field label="Password" type="password" v-model="user.password" />
+      <v-text-field label="Celular" v-model="user.cellphone" />
+      <v-text-field label="Fecha de nacimiento" type="date" v-model="user.dateOfBirth" />
+      <v-text-field label="Nuemero de documento" v-model="user.documentNumber" />
+      <v-text-field label="Usuario" v-model="user.userName" />
+      <v-text-field label="Contraseña" type="password" v-model="user.password" />
 
-      <v-select label="Gender" :items="genderItems" v-model="user.gender" item-value="value" item-title="text" />
+      <v-select label="Genero" :items="genderItems" v-model="user.gender" item-value="value" item-title="text" />
       <v-select label="Document Type" :items="documentTypeItems" v-model="user.documentType" item-value="value"
           item-title="text" />
       <v-select label="Status" :items="statusItems" v-model="user.status" item-value="value" item-title="text" />
