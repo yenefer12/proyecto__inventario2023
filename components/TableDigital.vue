@@ -7,7 +7,7 @@ const props = defineProps({
   searchTerm: String,
 });
 
-fetch('https://inventario-3hbd.onrender.com/api/digital-documents')
+fetch('https://docymento.onrender.com/api/v1/digitalDocuments')
   .then(response => response.json())
   .then(json => {
     data.value = json.data; // Ahora accedemos directamente a la propiedad 'data' del objeto JSON
@@ -34,7 +34,7 @@ const openDeleteDialog = (id) => {
 };
 const deleteItem = () => {
   // Utiliza el ID del artículo guardado en deletingItemId.value para eliminarlo
-  fetch(`https://inventario-3hbd.onrender.com/api/digital-documents/${deletingItemId.value}`, {
+  fetch(`https://docymento.onrender.com/api/v1/digitalDocuments/${deletingItemId.value}`, {
     method: 'DELETE',
   })
     .then(response => {
@@ -70,7 +70,7 @@ const editingItemId = ref(null); // Estado para guardar el ID del artículo que 
 
 const editItem = async (item) => {
   try {
-    const response = await fetch(`https://inventario-3hbd.onrender.com/api/digital-documents/${item.id}`);
+    const response = await fetch(`https://docymento.onrender.com/api/v1/digitalDocuments/${item.id}`);
     const json = await response.json();
 
     if (json && json.data && json.data.length > 0) {
