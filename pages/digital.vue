@@ -3,6 +3,9 @@ const searchTerm = ref('');
 const onSearch = (term) => {
   searchTerm.value = term;
 };
+definePageMeta({
+  middleware: "route",
+});
 </script>
 <template>
 <Search @search="onSearch"/>

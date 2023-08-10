@@ -1,3 +1,8 @@
+<script setup>
+definePageMeta({
+  middleware: "route",
+});
+</script>
 <template>
   <search/>
   <Table-Fisico/>

@@ -1,9 +1,10 @@
 <script setup>
 import RegisterUser from '@/components/RegisterUser.vue';
-import { useApiStore } from '@/stores/apifetch'
+import { useRouter } from 'vue-router';
 
 
-const store = useApiStore();
+const router = useRouter();
+const isClient = process.client;
 
 
 const user = ref({
@@ -11,48 +12,61 @@ const user = ref({
   password: '',
 });
 
+
 const flag = ref(false);
 const registerDialog = ref(false);
 
+
 const registerUserComponent = ref(null);
+
 
 const usernameRules = [
   (v) => !!v || "El nombre de usuario es obligatorio",
   (v) => v.length >= 4 || "Por favor ingresar un usuario",
 ];
 
+
 const passwordRules = [
   (v) => !!v || "La contraseña es obligatoria",
   (v) => v.length >= 6 || "Por favor ingresar una contraseña",
 ];
 
+
 const registerUser = () => {
   registerUserComponent.value.handleSubmit();
 };
 
-const handleSubmit = async () => {
 
-  const {data:responseData} = await useFetch('https://docymento.onrender.com/login/', {
+const handleSubmit = async () => {
+  try {
+    const { data: responseData } = await useFetch('https://docymento.onrender.com/login/', {
       method: 'post',
       body: {
         email: user.value.username,
         password: user.value.password,
       }
-  });
-  console.log(responseData.value);
-  store.userData.firstName = responseData.value.user.firstName
-  store.userData.lastName = responseData.value.user.lastName
-  store.userData.department = responseData.value.user.department
-  store.userData.userType = responseData.value.user.userType
+    });
 
-  console.log(store.userData.firstName,"yenifer");
-  navigateTo(`/home`)
 
+    if (isClient) { // Solo guardar en localStorage si estamos en el cliente
+      localStorage.setItem('jwtToken', responseData._rawValue.token);
+      localStorage.setItem('userData', JSON.stringify(responseData._rawValue.user));
+    }
+
+
+    router.push('/home');
+  } catch (error) {
+    console.error("Error during login:", error);
+  }
 };
+
+
+
 
 const openRegisterModal = () => {
   registerDialog.value = true;
 };
+
 
 const onUserRegistered = () => {
   registerDialog.value = false; // Cierra el modal
@@ -110,6 +124,7 @@ const onUserRegistered = () => {
     </v-card>
   </v-container>
 
+
   <v-dialog v-model="registerDialog" max-width="400">
     <v-card>
       <v-card-title class="text-center">Registrarse</v-card-title>
@@ -119,6 +134,7 @@ const onUserRegistered = () => {
     </v-card>
   </v-dialog>
 </template>
+
 
 <style lang="scss" scoped>
 .v-container{
@@ -154,3 +170,5 @@ const onUserRegistered = () => {
   }
 }
 </style>
+
+

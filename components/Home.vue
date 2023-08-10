@@ -1,10 +1,43 @@
 <script setup>
+import { ref, onMounted } from 'vue';
 
+
+const isAdmin = ref(false);
+const userData = ref({});
+
+
+onMounted(async () => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData && storedUserData !== "undefined") {
+        try {
+            userData.value = JSON.parse(storedUserData);
+        } catch (error) {
+            console.error("Error parsing stored user data:", error);
+        }
+    }
+
+
+    if (userData.value && userData.value.userType) {
+        try {
+            const response = await fetch(`https://docymento.onrender.com/api/v1/userType/${userData.value.userType}`);
+            const userTypeData = await response.json();
+
+
+            if (userTypeData.name === "Administrador") {
+                isAdmin.value = true;
+            }
+
+
+        } catch (error) {
+            console.error("Error fetching department:", error);
+        }
+    }
+});
 </script>
 <template>
   <v-container>
     <v-row class="row-card">
-      <v-col cols="10" sm="6" md="4" lg="4" xl="4">
+      <v-col v-if="isAdmin" cols="10" sm="6" md="4" lg="4" xl="4">
         <nuxt-link to="/gestion">
           <v-card class="cards">
             <v-img
@@ -80,10 +113,12 @@
 <!-- <Drawer/> -->
 </template>
 
+
 <style lang="scss" scoped>
 .row-card {
   justify-content: center;
   margin-top: 35px;
+
 
   .cards {
     background-color:$azul-claro;

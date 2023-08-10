@@ -7,11 +7,12 @@
     <v-text-field
       label="Date of Birth"
       type="date"
-      v-model="user.dateOfBirth"
+      v-model="formattedDateOfBirth"
     />
     <v-text-field label="Document Number" v-model="user.documentNumber" />
     <v-text-field label="Username" v-model="user.userName" />
     <v-text-field label="Password" type="password" v-model="user.password" />
+
 
     <v-select
       label="Gender"
@@ -24,32 +25,46 @@
       label="Document Type"
       :items="documentTypeItems"
       v-model="user.documentType"
-      item-value="value"
-      item-title="text"
+      item-value="id"
+      item-title="name"
     />
     <v-select
-      label="Status"
-      :items="statusItems"
-      v-model="user.status"
-      item-value="value"
-      item-title="text"
+      label="Department"
+      :items="departmentItems"
+      v-model="user.department"
+      item-value="id"
+      item-title="name"
     />
+
+
+    <v-select
+      label="User Type"
+      :items="userTypeItems"
+      v-model="user.userType"
+      item-value="id"
+      item-title="name"
+    />
+
 
     <v-btn type="submit" color="primary">Update</v-btn>
   </v-form>
 </template>
+
+
 <script setup>
+import {computed } from 'vue';
+const userTypeItems = ref([]);
+const departmentItems = ref([]);
+const documentTypeItems = ref([]);
 const props = defineProps({
   user: Object,
 });
 const emit = defineEmits(["user-updated", "close-dialog"]);
-watchEffect(() => {
-  console.log("Received user:", props.user.id);
-});
+const userCopy = ref({ ...props.user });
 const handleSubmit = async () => {
   try {
     const response = await fetch(
-      `https://inventario-3hbd.onrender.com/api/users/${props.user.id}`,
+      `https://docymento.onrender.com/api/v1/users/${props.user.id}`,
       {
         method: "PUT",
         headers: {
@@ -59,45 +74,60 @@ const handleSubmit = async () => {
       }
     );
 
+
     // Emit the custom event with the updated user
     emit("user-updated", props.user);
-
     emit("close-dialog");
   } catch (error) {
     alert("Hubo un error al actualizar el usuario.");
   }
 };
+
+
+
+
+
+
 const genderItems = [
   { value: 1, text: "Male" },
   { value: 2, text: "Female" },
 ];
-const selectedGender = computed({
-  get: () => genderItems.find((item) => item.value === props.user.gender),
-  set: (item) => {
-    props.user.gender = item ? item.value : null;
-  },
+
+
+const fetchData = async (url, dataRef) => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    dataRef.value = data;
+  } catch (error) {
+    console.error(`Error fetching data from ${url}:`, error);
+  }
+};
+
+
+onMounted(() => {
+  fetchData("https://docymento.onrender.com/api/v1/userType", userTypeItems);
+  fetchData("https://docymento.onrender.com/api/v1/departments/", departmentItems);
+  fetchData("https://docymento.onrender.com/api/v1/document_type", documentTypeItems);
+
+
 });
 
-const documentTypeItems = [
-  { value: 1, text: "Type 1" },
-  { value: 2, text: "Type 2" },
-];
-const selectedDocumentType = computed({
-  get: () =>
-    documentTypeItems.find((item) => item.value === props.user.documentType),
-  set: (item) => {
-    props.user.documentType = item ? item.value : null;
+
+
+
+
+
+const formattedDateOfBirth = computed({
+  get: () => {
+    if (!props.user.dateOfBirth) return null;
+    const date = new Date(props.user.dateOfBirth);
+    return date.toISOString().split('T')[0];
   },
+  set: (newValue) => {
+    props.user.dateOfBirth = newValue ? new Date(newValue).toISOString() : null;
+  }
 });
 
-const statusItems = [
-  { value: 1, text: "Active" },
-  { value: 0, text: "Inactive" },
-];
-const selectedStatus = computed({
-  get: () => statusItems.find((item) => item.value === props.user.status),
-  set: (item) => {
-    props.user.status = item ? item.value : null;
-  },
-});
+
 </script>
