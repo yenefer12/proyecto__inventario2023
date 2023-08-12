@@ -1,11 +1,12 @@
 <script setup>
-const searchTerm = ref('');
-const onSearch = (term) => {
+  import { ref } from "vue";
+  const searchTerm = ref("");
+  const onSearch = (term) => {
   searchTerm.value = term;
-};
-definePageMeta({
-  middleware: "route",
-});
+  };
+  definePageMeta({
+    middleware: "route",
+  });
 </script>
 <template>
 <Search @search="onSearch"/>

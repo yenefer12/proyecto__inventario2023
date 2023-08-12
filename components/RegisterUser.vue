@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, defineExpose, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const user = ref({
   firstName: '',
