@@ -9,6 +9,20 @@ const newDocument = ref({
   idStatus: null,
   file: null,
 });
+const user = ref({
+  firstName: '',
+  lastName: '',
+  email: '',
+  cellphone: '',
+  dateOfBirth: '',
+  documentNumber: '',
+  userName: '',
+  password: '',
+  gender: null,
+  documentType: null,
+  department: null,
+  userType: null
+});
 
 
 const users = ref([]);
