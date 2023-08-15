@@ -91,7 +91,7 @@ const exit = () => {
         <!-- <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/estadisticas">Estadísticas</nuxt-link></v-toolbar-title> -->
 
 
-        <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/requerimientos">Requerimientos</nuxt-link></v-toolbar-title>
+        <!-- <v-toolbar-title class="title subtitle hiden"><nuxt-link class="text-color-drawer" to="/requerimientos">Requerimientos</nuxt-link></v-toolbar-title> -->
 
 
         <v-btn><i class="fa-solid fa-user icon-user"></i>
@@ -138,7 +138,7 @@ const exit = () => {
 
 
         <v-list >
-          <v-list-item class="title subtitle color-text">
+          <v-list-item v-if="isAdmin" class="title subtitle color-text">
             <nuxt-link class="color-text" to="/gestion">Gestión</nuxt-link>
           </v-list-item>
           <v-list-item class="title subtitle ">
@@ -153,9 +153,9 @@ const exit = () => {
           <!-- <v-list-item class="title subtitle ">
             <nuxt-link class="color-text" to="/estadisticas">Estadísticas</nuxt-link>
           </v-list-item> -->
-          <v-list-item class="title subtitle ">
+          <!-- <v-list-item class="title subtitle ">
             <nuxt-link class="color-text" to="/requerimientos">Requerimientos</nuxt-link>
-          </v-list-item>
+          </v-list-item> -->
         </v-list>
       </v-navigation-drawer>
     </v-layout>

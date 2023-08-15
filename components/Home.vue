@@ -96,7 +96,7 @@ onMounted(async () => {
           </v-card>
         </nuxt-link>
       </v-col> -->
-      <v-col cols="10" sm="6" md="4" lg="4" xl="4">
+      <!-- <v-col cols="10" sm="6" md="4" lg="4" xl="4">
         <nuxt-link to="/requerimientos">
           <v-card class="cards">
             <v-img
@@ -107,7 +107,7 @@ onMounted(async () => {
             <v-card-title>Requerimientos especiales</v-card-title>
           </v-card>
         </nuxt-link>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 <!-- <Drawer/> -->

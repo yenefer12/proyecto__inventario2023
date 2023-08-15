@@ -1,83 +1,68 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const user = ref({
-  firstName: '',
-  lastName: '',
-  email: '',
-  cellphone: '',
-  dateOfBirth: '',
-  documentNumber: '',
-  userName: '',
-  password: '',
-  gender: null,
-  documentType: null,
-  department: null,
-  userType:null,
+
+const newDocument = ref({
+  name: '',
+  descrip: '',
+  idUser: null,
+  idStatus: null,
+  file: null,
 });
 
-const genderItems = [
-  { value: 1, text: 'Male' },
-  { value: 2, text: 'Female' },
-];
 
-const departmentItems = ref([]);
-const userTypeItems = ref([]);
-const documentTypeItems = ref([]);
+const users = ref([]);
+const statuses = ref([]);
 
-// const statusItems = [
-//   { value: 1, text: 'Active' },
-//   { value: 0, text: 'Inactive' },
-// ];
 
-const emit = defineEmits(['user-registered', 'close-dialog']);
+const emit = defineEmits(['document-created', 'close-dialog']);
 
-const handleSubmit = async () => {
+
+const createDocument = async () => {
   try {
-    const response = await fetch('https://docymento.onrender.com/api/v1/users/', {
+    const formData = new FormData();
+    formData.append('name', newDocument.value.name);
+    formData.append('descrip', newDocument.value.descrip);
+    formData.append('file', newDocument.value.file);
+
+
+    const response = await fetch('https://docymento.onrender.com/api/v1/digitalDocuments', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user.value),
+      body: formData
     });
 
+
     if (!response.ok) {
-      throw new Error('Error creating the user');
+      throw new Error('Error creating the document');
     }
 
-    alert('User created successfully!');
-    user.value = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      cellphone: '',
-      dateOfBirth: '',
-      documentNumber: '',
-      userName: '',
-      password: '',
-      gender: null,
-      documentType: null,
-      department: null,
-      userType: null,
+
+    alert('Document created successfully!');
+    newDocument.value = {
+      name: '',
+      descrip: '',
+      idUser: null,
+      idStatus: null,
+      file: null,
     };
-    emit('user-registered');
+    emit('document-created');
   } catch (error) {
-    alert('Hubo un error al crear el usuario.');
+    alert('Hubo un error al crear el documento.');
   }
 };
 
+
 defineExpose({
-  handleSubmit
+  createDocument
 });
 
-// Fetch data for departmentItems and userTypeItems on component mount
+
+// Fetch data for users and statuses on component mount
 onMounted(async () => {
-  await fetchData('https://docymento.onrender.com/api/v1/departments/', departmentItems);
-  await fetchData('https://docymento.onrender.com/api/v1/userType', userTypeItems);
-  await fetchData('https://docymento.onrender.com/api/v1/document_Type', documentTypeItems);
-
+  await fetchData('https://docymento.onrender.com/api/v1/users/', users);
+  await fetchData('https://docymento.onrender.com/api/v1/status', statuses);
 });
+
 
 const fetchData = async (url, dataRef) => {
   try {
@@ -89,6 +74,8 @@ const fetchData = async (url, dataRef) => {
   }
 };
 </script>
+
+
 <template>
   <v-form @submit.prevent="handleSubmit">
       <v-text-field label="Nombre" v-model="user.firstName" />
@@ -100,6 +87,7 @@ const fetchData = async (url, dataRef) => {
       <v-text-field label="Usuario" v-model="user.userName" />
       <v-text-field label="Contraseña" type="password" v-model="user.password" />
 
+
       <v-select label="Genero" :items="genderItems" v-model="user.gender" item-value="value" item-title="text" />
       <v-select label="Tipo de documento" :items="documentTypeItems" v-model="user.documentType" item-value="id" item-title="name"/>
       <v-select label="Area" :items="departmentItems" v-model="user.department" item-value="id" item-title="name" />
@@ -109,6 +97,9 @@ const fetchData = async (url, dataRef) => {
 </template>
 
 
+
+
 <style lang="scss" scoped>
+
 
 </style>
