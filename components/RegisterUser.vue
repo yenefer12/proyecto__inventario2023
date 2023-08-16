@@ -1,14 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-
-
-const newDocument = ref({
-  name: '',
-  descrip: '',
-  idUser: null,
-  idStatus: null,
-  file: null,
-});
 const user = ref({
   firstName: '',
   lastName: '',
@@ -23,14 +14,21 @@ const user = ref({
   department: null,
   userType: null
 });
-
+const userTypeItems = ref([]);
+const departmentItems = ref([]);
+const documentTypeItems = ref([]);
+const newDocument = ref({
+  name: '',
+  descrip: '',
+  idUser: null,
+  idStatus: null,
+  file: null,
+});
 
 const users = ref([]);
 const statuses = ref([]);
 
-
 const emit = defineEmits(['document-created', 'close-dialog']);
-
 
 const createDocument = async () => {
   try {
@@ -39,17 +37,14 @@ const createDocument = async () => {
     formData.append('descrip', newDocument.value.descrip);
     formData.append('file', newDocument.value.file);
 
-
     const response = await fetch('https://docymento.onrender.com/api/v1/digitalDocuments', {
       method: 'POST',
       body: formData
     });
 
-
     if (!response.ok) {
       throw new Error('Error creating the document');
     }
-
 
     alert('Document created successfully!');
     newDocument.value = {
@@ -65,18 +60,20 @@ const createDocument = async () => {
   }
 };
 
-
+const genderItems = [
+  { value: 1, text: "Male" },
+  { value: 2, text: "Female" },
+];
 defineExpose({
   createDocument
 });
 
-
 // Fetch data for users and statuses on component mount
 onMounted(async () => {
-  await fetchData('https://docymento.onrender.com/api/v1/users/', users);
-  await fetchData('https://docymento.onrender.com/api/v1/status', statuses);
+  fetchData("https://docymento.onrender.com/api/v1/userType", userTypeItems);
+  fetchData("https://docymento.onrender.com/api/v1/departments/", departmentItems);
+  fetchData("https://docymento.onrender.com/api/v1/document_type", documentTypeItems);
 });
-
 
 const fetchData = async (url, dataRef) => {
   try {
@@ -89,7 +86,6 @@ const fetchData = async (url, dataRef) => {
 };
 </script>
 
-
 <template>
   <v-form @submit.prevent="handleSubmit">
       <v-text-field label="Nombre" v-model="user.firstName" />
@@ -101,7 +97,6 @@ const fetchData = async (url, dataRef) => {
       <v-text-field label="Usuario" v-model="user.userName" />
       <v-text-field label="Contraseña" type="password" v-model="user.password" />
 
-
       <v-select label="Genero" :items="genderItems" v-model="user.gender" item-value="value" item-title="text" />
       <v-select label="Tipo de documento" :items="documentTypeItems" v-model="user.documentType" item-value="id" item-title="name"/>
       <v-select label="Area" :items="departmentItems" v-model="user.department" item-value="id" item-title="name" />
@@ -111,9 +106,6 @@ const fetchData = async (url, dataRef) => {
 </template>
 
 
-
-
 <style lang="scss" scoped>
-
 
 </style>
