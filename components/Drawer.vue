@@ -72,7 +72,7 @@ const exit = () => {
           </v-tooltip>
         </v-btn>
         <v-btn @click="exit">
-          <i class="fa-solid fa-arrow-right-from-bracket icon-exit"></i>
+          <i class="fa-solid fa-arrow-right-from-bracket icon-exit" title="Cerrar Sesión"></i>
         </v-btn>
       </v-app-bar>
 
