@@ -2,13 +2,13 @@
   <v-form @submit.prevent="submitDocument">
    
     <!-- Name Input -->
-    <v-text-field label="Name" v-model="document.name" />
+    <v-text-field label="Nombre" v-model="document.name" />
 
     <!-- Description Input -->
-    <v-text-field label="Description" v-model="document.descrip" />
+    <v-text-field label="Descripción" v-model="document.descrip" />
 
     <v-select
-      label="User"
+      label="Usuario"
       :items="userItems"
       v-model="document.idUser"
       item-value="id"
@@ -16,7 +16,7 @@
     />
    
     <v-select
-      label="Status"
+      label="Estatus"
       :items="statusItems"
       v-model="document.idStatus"
       item-value="id"
@@ -24,9 +24,9 @@
     />
 
     <!-- File Input -->
-    <v-file-input label="File" @change="onFileChange"></v-file-input>
+    <v-file-input label="Documento" @change="onFileChange"></v-file-input>
 
-    <v-btn type="submit">Submit</v-btn>
+    <v-btn type="submit">Registrar</v-btn>
   </v-form>
 </template>
 

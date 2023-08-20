@@ -11,9 +11,6 @@ const props = defineProps({
   searchTerm: String,
 });
 
-
-
-
 fetch('https://docymento.onrender.com/api/v1/physicalDocuments/')
   .then(response => response.json())
   .then(json => {
@@ -22,9 +19,6 @@ fetch('https://docymento.onrender.com/api/v1/physicalDocuments/')
   .catch(error => {
     console.error('Error fetching data:', error);
   });
-
-
-
 
   const filteredData = computed(() => {
   const searchTerm = props.searchTerm || '';
@@ -35,7 +29,6 @@ fetch('https://docymento.onrender.com/api/v1/physicalDocuments/')
   });
  
 });
-
 
 const registerDialog = ref(false);
 const isAdmin = ref(false);
@@ -48,9 +41,6 @@ const openDeleteDialog = (id) => {
   deletingItemId.value = id;
   dialog.value = true;
 };
-
-
-
 
 const deleteItem = () => {
   fetch(`https://docymento.onrender.com/api/v1/physicalDocuments/${deletingItemId.value}`, {
@@ -73,24 +63,11 @@ const deleteItem = () => {
   dialog.value = false;
 };
 
-
-
-
 const closeDialog = () => {
   dialog.value = false;
 };
 
-
-
-
 const editDialog = ref(false);
-
-
-
-
-
-
-
 
 const editItem = async (item) => {
   try {
@@ -112,15 +89,11 @@ function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-
 const handleDocumentCreated = (createdDocument) => {
     data.value.push(createdDocument);
     fetchUsers();
     registerDialog.value = false;
 };
-
-
-
 
 const handleUserUpdated = (updatedUser) => {
   const index = data.value.findIndex(user => user.id === updatedUser.id);
@@ -129,13 +102,6 @@ const handleUserUpdated = (updatedUser) => {
   }
   fetchUsers();  // <-- Fetch the data again
 };
-
-
-
-
-
-
-
 
 const closeEditDialog = () => {
   editDialog.value = false;
@@ -220,6 +186,11 @@ const requestDocument = async (idPhysicalDocument) => {
   }
 }
 
+const formatCreatedAt = (createdAt) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+  const date = new Date(createdAt);
+  return date.toLocaleDateString('en-US', options);
+}
 
 onMounted(async() => {
   const storedUserData = localStorage.getItem('userData');
@@ -232,15 +203,9 @@ onMounted(async() => {
             const response = await fetch(`https://docymento.onrender.com/api/v1/userType/${userData.value.userType}`);
             const userTypeData = await response.json();
 
-
-
-
             if (userTypeData.name === "Administrador") {
                 isAdmin.value = true;
             }
-
-
-
 
         } catch (error) {
             console.error("Error fetching department:", error);
@@ -251,9 +216,6 @@ onMounted(async() => {
     }
   }
 });
-
-
-
 
 watch(userData, async (newVal) => {
   if (newVal && newVal.department) {
@@ -267,20 +229,9 @@ watch(userData, async (newVal) => {
   }
 }, { immediate: true });
 
-
-
-
-
-
 fetchUsers();
 
-
-
-
 </script>
-
-
-
 
 <template>
   <div class="register-button-container">
@@ -309,6 +260,7 @@ fetchUsers();
     <thead>
       <tr>
         <th class="text-left">Id</th>
+        <th class="text-left">Fecha de creación</th>
         <th class="text-left">Nombre</th>
         <th class="text-left">Descripción</th>
         <th class="text-left">Opciones</th>
@@ -339,6 +291,7 @@ fetchUsers();
     <tbody>
       <tr v-for="item in filteredData" :key="item.id">
         <td>{{ item.id }}</td>
+        <td>{{ formatCreatedAt(item.createdAt) }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.descrip }}</td>
         <td>
@@ -361,13 +314,10 @@ fetchUsers();
   </v-table>
 </template>
 
-
 <style lang="scss" scoped>
 .content-table,.register-button-container {
   width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
-
-
 </style>

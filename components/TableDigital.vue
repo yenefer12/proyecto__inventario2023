@@ -161,6 +161,11 @@ const fetchUsers = async () => {
   }
 }
 
+const formatCreatedAt = (createdAt) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+  const date = new Date(createdAt);
+  return date.toLocaleDateString('en-US', options);
+}
 
 </script>
 
@@ -183,6 +188,8 @@ const fetchUsers = async () => {
   <v-table class="content-table" fixed-header height="300px">
     <thead>
       <tr>
+        <th class="text-left">Id</th>
+        <th class="text-left">Fecha de creación</th>
         <th class="text-left">Nombre</th>
         <th class="text-left">Descripción</th>
         <th class="text-left">Opciones</th>
@@ -203,6 +210,8 @@ const fetchUsers = async () => {
    
     <tbody>
       <tr v-for="item in filteredData" :key="item.id">
+        <td>{{ item.id }}</td>
+        <td>{{ formatCreatedAt(item.createdAt) }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.descrip }}</td>
         <td>

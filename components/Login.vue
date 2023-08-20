@@ -106,9 +106,6 @@ const onUserRegistered = () => {
           <v-col class="registre" align="center">
             <p @click="openRegisterModal">Registrarme</p>
           </v-col>
-          <!-- <v-col align="center">
-            <p>Olvidé mi contraseña</p>
-          </v-col> -->
         </v-row>
       </v-card-text>
     </v-card>
