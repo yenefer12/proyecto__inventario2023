@@ -53,9 +53,10 @@ const handleSubmit = async () => {
       localStorage.setItem('userData', JSON.stringify(responseData._rawValue.user));
     }
 
-
+    window.alert("Inicio de sesión exitoso")
     router.push('/home');
   } catch (error) {
+    window.alert("Error en la autenticación")
     console.error("Error during login:", error);
   }
 };
